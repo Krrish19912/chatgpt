@@ -1,237 +1,275 @@
-import { Suspense, useRef, useState } from "react";
+import { Suspense, useEffect, useRef, useState } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { Environment, Float, MeshDistortMaterial, Sparkles, Stars } from "@react-three/drei";
-import { MotionConfig, motion, useReducedMotion, useScroll, useSpring, useTransform } from "motion/react";
+import { Environment, Float, Sparkles } from "@react-three/drei";
+import { MotionConfig, motion, useReducedMotion, useScroll, useSpring } from "motion/react";
 import {
-  ArrowDownRight, ArrowRight, ArrowUpRight, Asterisk, Code2, Layers3,
-  Mail, Menu, MousePointer2, MoveUpRight, Sparkles as SparklesIcon, Terminal, X
+  ArrowDownRight, ArrowRight, ArrowUpRight, Braces, Code2, ExternalLink,
+  Layers3, Mail, Menu, Moon, Sun, Terminal, X
 } from "lucide-react";
 import * as THREE from "three";
 
 const projects = [
   {
-    n: "01",
-    title: "NATIVE",
-    subtitle: "An AI playground with a pulse.",
-    type: "CREATIVE AI / INTERFACE CONCEPT",
-    description: "What if working with AI felt less like filling out a form and more like stepping into a thought?",
-    tags: ["React", "AI UX", "Motion"],
-    art: "native"
+    number: "01",
+    title: "Northstar",
+    type: "DASHBOARD · PRODUCT CONCEPT",
+    description: "A clear, considered analytics workspace that turns a busy data view into a useful daily tool.",
+    tags: ["React", "Data visualization", "UI design"],
+    preview: "northstar"
   },
   {
-    n: "02",
-    title: "MUSE",
-    subtitle: "Commerce, with all five senses.",
-    type: "DIGITAL COMMERCE / 3D CONCEPT",
-    description: "A tactile product universe built to make the space between looking and wanting feel smaller.",
-    tags: ["Three.js", "WebGL", "Art direction"],
-    art: "muse"
+    number: "02",
+    title: "Forma",
+    type: "COMMERCE · INTERACTION CONCEPT",
+    description: "A quiet product storefront exploring generous space, tactile details, and simple decisions.",
+    tags: ["E-commerce", "Three.js", "Motion"],
+    preview: "forma"
   },
   {
-    n: "03",
-    title: "TYPED",
-    subtitle: "A little less noise. A lot more flow.",
-    type: "PRODUCTIVITY / SAAS CONCEPT",
-    description: "A focused writing space exploring how small motion and clear hierarchy can help ideas find their shape.",
-    tags: ["React", "Design systems", "Interaction"],
-    art: "typed"
+    number: "03",
+    title: "Fieldnotes",
+    type: "CREATIVE TOOL · INTERFACE CONCEPT",
+    description: "A focused writing space designed to keep the work in front and the interface out of the way.",
+    tags: ["React", "Design systems", "Accessibility"],
+    preview: "fieldnotes"
   }
 ];
 
-const services = [
-  { number: "01", title: "Creative development", detail: "Making ambitious visual ideas work on real screens.", icon: Code2 },
-  { number: "02", title: "3D + interaction", detail: "Giving the browser a sense of depth, touch, and play.", icon: Layers3 },
-  { number: "03", title: "Interface systems", detail: "The tiny details that make a whole product feel intentional.", icon: Terminal }
+const capabilities = [
+  { number: "01", title: "Frontend engineering", description: "Responsive, maintainable interfaces with attention to detail.", icon: Code2 },
+  { number: "02", title: "Creative interaction", description: "Motion and 3D used with intention, never just for decoration.", icon: Layers3 },
+  { number: "03", title: "UI systems", description: "Consistent components and thoughtful states that make products feel complete.", icon: Braces }
 ];
 
-function Sculpture({ reducedMotion, playMode }) {
-  const core = useRef();
-  const orbit = useRef();
-  const outerOrbit = useRef();
+function HeroObject({ dark }) {
+  const sculpture = useRef();
+  const ringA = useRef();
+  const ringB = useRef();
+
   useFrame((state, delta) => {
-    if (reducedMotion) return;
-    if (core.current) {
-      core.current.rotation.y += delta * 0.2;
-      core.current.rotation.x = THREE.MathUtils.damp(core.current.rotation.x, state.pointer.y * 0.23, 3, delta);
-      core.current.rotation.z = THREE.MathUtils.damp(core.current.rotation.z, -state.pointer.x * 0.18, 3, delta);
-    }
-    if (orbit.current) orbit.current.rotation.z += delta * 0.21;
-    if (outerOrbit.current) outerOrbit.current.rotation.x -= delta * 0.08;
+    if (!sculpture.current) return;
+    sculpture.current.rotation.y += delta * 0.12;
+    sculpture.current.rotation.x = THREE.MathUtils.damp(
+      sculpture.current.rotation.x,
+      state.pointer.y * 0.12,
+      2.5,
+      delta
+    );
+    sculpture.current.rotation.z = THREE.MathUtils.damp(
+      sculpture.current.rotation.z,
+      -state.pointer.x * 0.08,
+      2.5,
+      delta
+    );
+    if (ringA.current) ringA.current.rotation.z += delta * 0.08;
+    if (ringB.current) ringB.current.rotation.y -= delta * 0.05;
   });
+
   return (
     <group>
-      <Float speed={reducedMotion ? 0 : 1.25} rotationIntensity={reducedMotion ? 0 : 0.24} floatIntensity={reducedMotion ? 0 : 0.55}>
-        <group ref={core} scale={1.13}>
+      <Float speed={1.15} rotationIntensity={0.12} floatIntensity={0.2}>
+        <group ref={sculpture} scale={1.04}>
           <mesh>
-            <icosahedronGeometry args={[1, 6]} />
-            <MeshDistortMaterial
-              color={playMode ? "#c9ff3d" : "#ff5538"}
-              roughness={0.16}
-              metalness={0.34}
-              distort={0.38}
-              speed={reducedMotion ? 0 : 2.5}
+            <icosahedronGeometry args={[1, 5]} />
+            <meshPhysicalMaterial
+              color={dark ? "#a9c9c5" : "#dcebe7"}
+              roughness={0.23}
+              metalness={0.18}
+              clearcoat={1}
+              clearcoatRoughness={0.14}
             />
           </mesh>
-          <mesh scale={1.045}>
+          <mesh scale={1.012}>
             <icosahedronGeometry args={[1, 2]} />
-            <meshBasicMaterial color="#fff5e7" wireframe transparent opacity={0.36} />
-          </mesh>
-          <mesh scale={0.68} rotation={[0.2, 0.4, 0.2]}>
-            <dodecahedronGeometry args={[1, 1]} />
-            <meshBasicMaterial color={playMode ? "#ff5538" : "#c9ff3d"} wireframe transparent opacity={0.48} />
+            <meshBasicMaterial color={dark ? "#d3e7df" : "#4b736e"} wireframe transparent opacity={0.22} />
           </mesh>
         </group>
       </Float>
-      <mesh ref={orbit} rotation={[1.16, 0.3, -0.35]} scale={[1.58, 1.58, 1.58]}>
-        <torusGeometry args={[1, 0.012, 10, 160]} />
-        <meshBasicMaterial color={playMode ? "#ff5538" : "#c9ff3d"} />
+      <mesh ref={ringA} rotation={[1.05, 0.22, -0.35]} scale={[1.52, 1.52, 1.52]}>
+        <torusGeometry args={[1, 0.006, 8, 180]} />
+        <meshBasicMaterial color={dark ? "#a6c7c1" : "#537d76"} transparent opacity={0.82} />
       </mesh>
-      <mesh ref={outerOrbit} rotation={[0.45, -0.65, 0.18]} scale={[1.9, 1.9, 1.9]}>
-        <torusGeometry args={[1, 0.004, 8, 160]} />
-        <meshBasicMaterial color="#fff5e7" transparent opacity={0.58} />
+      <mesh ref={ringB} rotation={[0.45, -0.6, 0.18]} scale={[1.78, 1.78, 1.78]}>
+        <torusGeometry args={[1, 0.003, 8, 180]} />
+        <meshBasicMaterial color={dark ? "#b9c9c2" : "#8e9e97"} transparent opacity={0.68} />
       </mesh>
-      <Sparkles count={65} scale={4.3} size={3} speed={reducedMotion ? 0 : 0.38} color="#fff1c9" opacity={0.9} />
-      <Stars radius={7} depth={2} count={90} factor={1.3} saturation={0} fade speed={reducedMotion ? 0 : 0.15} />
+      <Sparkles count={24} scale={3.8} size={1.6} speed={0.14} color={dark ? "#d5e5dc" : "#617d75"} opacity={0.65} />
     </group>
   );
 }
 
-function HeroScene({ playMode }) {
+function HeroScene({ dark }) {
   const reducedMotion = useReducedMotion();
   return (
-    <div className="hero-visual">
-      <div className="visual-sun" />
+    <div className="hero-scene" aria-label="Interactive 3D geometric sculpture">
+      <div className="scene-glow" />
+      <div className="scene-topline"><span>FORM STUDY No. 01</span><span>INTERACTIVE OBJECT</span></div>
       <Canvas
-        camera={{ position: [0, 0, 4.7], fov: 42 }}
-        dpr={[1, 1.5]}
+        camera={{ position: [0, 0, 4.35], fov: 42 }}
+        dpr={[1, 1.4]}
         gl={{ antialias: true, alpha: true }}
         onCreated={({ gl }) => { gl.toneMapping = THREE.ACESFilmicToneMapping; }}
-        aria-label="Interactive 3D coral sculpture"
       >
-        <ambientLight intensity={1.15} />
-        <directionalLight position={[4, 5, 4]} intensity={3.1} color="#fff3db" />
-        <pointLight position={[-3, -2, 2]} intensity={20} color={playMode ? "#ff5538" : "#6945ff"} />
-        <pointLight position={[2, -1, 3]} intensity={10} color="#d2ff45" />
+        <ambientLight intensity={0.9} />
+        <directionalLight position={[4, 4, 4]} intensity={2.6} color="#fff8e9" />
+        <pointLight position={[-3, -2, 2]} intensity={dark ? 7 : 9} color="#8dbdb2" />
         <Suspense fallback={null}>
           <Environment preset="studio" />
-          <Sculpture reducedMotion={Boolean(reducedMotion)} playMode={playMode} />
+          {reducedMotion
+            ? <HeroObjectStatic dark={dark} />
+            : <HeroObject dark={dark} />}
         </Suspense>
       </Canvas>
-      <div className="visual-sticker sticker-top"><Asterisk size={17} /> BUILT TO FEEL</div>
-      <div className="visual-sticker sticker-bottom"><span>3D</span><div>NOT A TEMPLATE<br />NOT EVEN CLOSE.</div></div>
-      <div className="visual-index">FIG. 001 / DIGITAL MATTER</div>
-      <div className="visual-cross cross-a" />
-      <div className="visual-cross cross-b" />
+      <div className="scene-bottomline"><span>DRAG WITH YOUR CURSOR</span><span>01 — 03</span></div>
     </div>
   );
 }
 
-function Reveal({ children, className = "", delay = 0, ...props }) {
+function HeroObjectStatic({ dark }) {
+  return (
+    <group>
+      <mesh>
+        <icosahedronGeometry args={[1.04, 4]} />
+        <meshPhysicalMaterial color={dark ? "#a9c9c5" : "#dcebe7"} roughness={0.25} metalness={0.15} clearcoat={1} />
+      </mesh>
+      <mesh rotation={[1.05, 0.22, -0.35]} scale={[1.52, 1.52, 1.52]}>
+        <torusGeometry args={[1, 0.006, 8, 180]} />
+        <meshBasicMaterial color={dark ? "#a6c7c1" : "#537d76"} />
+      </mesh>
+    </group>
+  );
+}
+
+function Reveal({ children, className = "", delay = 0 }) {
   const reducedMotion = useReducedMotion();
   return (
     <motion.div
       className={className}
-      initial={reducedMotion ? false : { opacity: 0, y: 34 }}
+      initial={reducedMotion ? false : { opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.14 }}
-      transition={{ duration: reducedMotion ? 0 : 0.72, delay, ease: [0.22, 1, 0.36, 1] }}
-      {...props}
+      transition={{ duration: reducedMotion ? 0 : 0.58, delay, ease: [0.22, 1, 0.36, 1] }}
     >
       {children}
     </motion.div>
   );
 }
 
-function ProjectArtwork({ art }) {
-  if (art === "native") {
+function ProjectPreview({ type }) {
+  if (type === "northstar") {
     return (
-      <div className="art-stage art-native">
-        <div className="stage-meta"><span>NATIVE® — CREATIVE INTELLIGENCE</span><span>FIG. 01</span></div>
-        <div className="native-copy">THINK<br /><i>WEIRDER.</i></div>
-        <div className="native-disc"><div className="native-disc-inner" /><div className="native-disc-core" /></div>
-        <div className="native-orbit native-orbit-one" /><div className="native-orbit native-orbit-two" />
-        <div className="native-caption">A NEW KIND OF<br />CONVERSATION ↗</div>
-        <div className="native-star">✳</div>
+      <div className="preview preview-northstar">
+        <div className="preview-sidebar"><span className="mini-logo">n.</span><i /><i /><i /><i /></div>
+        <div className="dashboard">
+          <div className="dash-head"><span>Overview</span><span className="mini-select">Last 30 days⌄</span></div>
+          <div className="dash-stats">
+            <div><small>Revenue</small><b>$48,290</b><em>↗ 12.8%</em></div>
+            <div><small>Customers</small><b>2,841</b><em>↗ 8.4%</em></div>
+            <div><small>Conversion</small><b>4.86%</b><em>↗ 2.1%</em></div>
+          </div>
+          <div className="dash-chart"><div className="chart-guides"><i /><i /><i /><i /></div><svg viewBox="0 0 420 110" preserveAspectRatio="none" aria-hidden="true"><path d="M0 88 C24 83 35 54 60 67 S100 83 123 50 S163 61 188 41 S227 65 253 35 S296 54 320 20 S372 46 420 8" fill="none" stroke="currentColor" strokeWidth="2.5" vectorEffect="non-scaling-stroke"/><path d="M0 88 C24 83 35 54 60 67 S100 83 123 50 S163 61 188 41 S227 65 253 35 S296 54 320 20 S372 46 420 8 L420 110 L0 110Z" fill="currentColor" opacity=".07"/></svg></div>
+          <div className="dash-legend"><span><i /> Revenue</span><span>JAN 01 — JAN 30</span></div>
+        </div>
       </div>
     );
   }
-  if (art === "muse") {
+  if (type === "forma") {
     return (
-      <div className="art-stage art-muse">
-        <div className="stage-meta"><span>MUSE® — OBJECTS & OTHER THINGS</span><span>FIG. 02</span></div>
-        <div className="muse-title">FEEL<br /><span>THE</span><br /><i>FUTURE.</i></div>
-        <div className="muse-object"><div className="muse-object-cap" /><div className="muse-object-body"><span>M / 02</span></div><div className="muse-object-foot" /></div>
-        <div className="muse-swoosh" />
-        <div className="muse-bottom"><span>OBJECT STUDY — 002</span><span>TOUCH TO EXPLORE ↗</span></div>
-        <div className="muse-cross">+</div>
+      <div className="preview preview-forma">
+        <div className="forma-top"><span>FORMA / STUDIO</span><span>OBJECTS THAT LAST</span><span>SHOP ↗</span></div>
+        <div className="forma-copy"><small>THE EVERYDAY COLLECTION</small><b>Good design.<br /><i>Less noise.</i></b><span>Considered objects for slower living.</span><div className="forma-cta">EXPLORE COLLECTION <ArrowUpRight size={13} /></div></div>
+        <div className="forma-object"><div className="forma-object-cap" /><div className="forma-object-neck" /><div className="forma-object-body"><span>F / 01</span></div><div className="forma-object-shadow" /></div>
+        <div className="forma-index">FORM 01 — 2025</div>
       </div>
     );
   }
   return (
-    <div className="art-stage art-typed">
-      <div className="stage-meta"><span>TYPED® — SPACE FOR THOUGHT</span><span>FIG. 03</span></div>
-      <div className="typed-orbit typed-orbit-one" /><div className="typed-orbit typed-orbit-two" />
-      <div className="typed-window window-back"><span>Untitled / Draft 08</span><div /><div /><div /></div>
-      <div className="typed-window window-front">
-        <div className="typed-window-head"><span className="typed-mini-mark">t.</span><span>MONDAY, 09:41 AM</span><span>•••</span></div>
-        <div className="typed-page-title">The art of<br /><i>starting</i> messy.</div>
-        <div className="typed-lines"><i /><i /><i /><i /></div>
-        <div className="typed-highlight">GOOD IDEAS<br />NEED ROOM.</div>
+    <div className="preview preview-fieldnotes">
+      <div className="notes-top"><span className="notes-brand">fieldnotes<span>.</span></span><span>Untitled / Draft 04</span><span>•••</span></div>
+      <div className="notes-body">
+        <div className="notes-date">MONDAY, 09:41 AM</div>
+        <div className="notes-title">Ideas need<br /><i>room to grow.</i></div>
+        <div className="notes-lines"><i /><i /><i /><i /></div>
+        <div className="notes-quote">“Make space for<br />the first draft.”</div>
+        <div className="notes-footer"><span>124 WORDS</span><span>ALL CHANGES SAVED ✓</span></div>
       </div>
-      <div className="typed-spark">✳</div>
-      <div className="typed-bottom-label">LESS NOISE. MORE SIGNAL.</div>
+      <div className="notes-decoration">f.</div>
     </div>
   );
 }
 
 function ProjectCard({ project, index }) {
   return (
-    <Reveal className={"project-card project-" + project.art} delay={index * 0.07}>
-      <a href="https://github.com/Krrish19912" target="_blank" rel="noreferrer" className="project-link" aria-label={"Explore more work on GitHub: " + project.title}>
-        <ProjectArtwork art={project.art} />
-        <div className="project-info">
-          <div>
-            <span className="project-type">{project.type}</span>
-            <h3>{project.title}<span className="project-index">/{project.n}</span></h3>
-            <p className="project-subtitle">{project.subtitle}</p>
-          </div>
-          <span className="project-go"><ArrowUpRight size={24} /></span>
-        </div>
-        <p className="project-description">{project.description}</p>
-        <div className="project-tags">{project.tags.map(tag => <span key={tag}>{tag}</span>)}</div>
-      </a>
+    <Reveal className="project-card" delay={index * 0.06}>
+      <div className={"project-preview project-preview-" + project.preview}>
+        <ProjectPreview type={project.preview} />
+        <span className="preview-number">{project.number}</span>
+      </div>
+      <div className="project-meta">
+        <div><span className="eyebrow">{project.type}</span><h3>{project.title}</h3></div>
+        <span className="project-arrow"><ArrowUpRight size={19} /></span>
+      </div>
+      <p className="project-description">{project.description}</p>
+      <div className="project-tags">{project.tags.map(tag => <span key={tag}>{tag}</span>)}</div>
+      <span className="concept-note">SELF-INITIATED CONCEPT</span>
     </Reveal>
   );
 }
 
-function Header({ playMode, setPlayMode }) {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const links = [["Work", "#work"], ["About", "#about"], ["What I do", "#services"]];
+function ThemeToggle({ dark, onToggle }) {
   return (
-    <header className="site-header">
-      <a className="brand" href="#top" aria-label="Krrish home"><span className="brand-symbol">K<span>!</span></span><span className="brand-word">KRR/ISH<small>CREATIVE DEVELOPER</small></span></a>
+    <button className="theme-toggle" type="button" onClick={onToggle} aria-label={dark ? "Switch to light mode" : "Switch to dark mode"} title={dark ? "Switch to light mode" : "Switch to dark mode"}>
+      {dark ? <Sun size={16} /> : <Moon size={16} />}
+      <span>{dark ? "LIGHT MODE" : "DARK MODE"}</span>
+    </button>
+  );
+}
+
+function Header({ dark, onThemeToggle }) {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const links = [["Work", "#work"], ["About", "#about"], ["Capabilities", "#capabilities"]];
+  return (
+    <header className="site-header section-shell">
+      <a className="brand" href="#top" aria-label="Krrish home"><span className="brand-mark">K<span>.</span></span><span className="brand-copy">KRRISH<small>DEVELOPER / DESIGNER</small></span></a>
       <nav className={menuOpen ? "main-nav nav-open" : "main-nav"} aria-label="Main navigation">
-        {links.map(([label, href], i) => <a key={label} href={href} onClick={() => setMenuOpen(false)}><span className="nav-num">0{i + 1}</span>{label}</a>)}
-        <button className="mode-switch" onClick={() => setPlayMode(!playMode)} aria-pressed={playMode}><span className={playMode ? "mode-light mode-active" : "mode-light"} /> PLAY MODE: {playMode ? "ON" : "OFF"}</button>
+        {links.map(([label, href]) => <a key={label} href={href} onClick={() => setMenuOpen(false)}>{label}</a>)}
+        <ThemeToggle dark={dark} onToggle={onThemeToggle} />
         <a className="nav-contact" href="#contact" onClick={() => setMenuOpen(false)}>LET'S TALK <ArrowUpRight size={15} /></a>
       </nav>
-      <button className="menu-toggle" onClick={() => setMenuOpen(!menuOpen)} aria-label={menuOpen ? "Close navigation" : "Open navigation"} aria-expanded={menuOpen}>{menuOpen ? <X /> : <Menu />}</button>
+      <button className="menu-toggle" type="button" onClick={() => setMenuOpen(!menuOpen)} aria-label={menuOpen ? "Close navigation" : "Open navigation"} aria-expanded={menuOpen}>{menuOpen ? <X /> : <Menu />}</button>
     </header>
   );
 }
 
 function App() {
-  const [playMode, setPlayMode] = useState(false);
-  const [copied, setCopied] = useState(false);
+  const [dark, setDark] = useState(() => {
+    try {
+      const saved = window.localStorage.getItem("krrish-theme");
+      if (saved === "light") return false;
+      if (saved === "dark") return true;
+      return window.matchMedia?.("(prefers-color-scheme: dark)").matches ?? false;
+    } catch {
+      return false;
+    }
+  });
+  const [menuEmailCopied, setMenuEmailCopied] = useState(false);
   const { scrollYProgress } = useScroll();
-  const progress = useSpring(scrollYProgress, { stiffness: 110, damping: 26, restDelta: 0.001 });
-  const starRotate = useTransform(progress, [0, 1], [-25, 335]);
+  const progress = useSpring(scrollYProgress, { stiffness: 90, damping: 24, restDelta: 0.001 });
   const email = "hello@krrish.dev";
+
+  useEffect(() => {
+    const theme = dark ? "dark" : "light";
+    document.documentElement.style.colorScheme = theme;
+    document.querySelector('meta[name="theme-color"]')?.setAttribute("content", dark ? "#111817" : "#f6f7f4");
+    try { window.localStorage.setItem("krrish-theme", theme); } catch { /* Storage may be unavailable. */ }
+  }, [dark]);
+
+  const toggleTheme = () => setDark(value => !value);
   const copyEmail = async () => {
     try {
       await navigator.clipboard.writeText(email);
-      setCopied(true);
-      window.setTimeout(() => setCopied(false), 1800);
+      setMenuEmailCopied(true);
+      window.setTimeout(() => setMenuEmailCopied(false), 1800);
     } catch {
       window.location.href = "mailto:" + email;
     }
@@ -239,82 +277,73 @@ function App() {
 
   return (
     <MotionConfig reducedMotion="user">
-      <div className={playMode ? "app-shell play-mode" : "app-shell"} id="top">
+      <div className="app-shell" data-theme={dark ? "dark" : "light"} id="top">
         <motion.div className="scroll-progress" style={{ scaleX: progress }} />
-        <div className="paper-grain" />
-        <Header playMode={playMode} setPlayMode={setPlayMode} />
+        <Header dark={dark} onThemeToggle={toggleTheme} />
         <main>
           <section className="hero section-shell" id="home">
-            <div className="hero-topline"><span><i className="live-dot" /> INDEPENDENT CREATIVE DEVELOPER</span><span>INDIA ↗ INTERNET</span><span>AVAILABLE FOR SELECT WORK — 2026</span></div>
-            <div className="hero-layout">
-              <div className="hero-copy">
-                <motion.div className="hero-kicker" initial={{ opacity: 0, x: -18 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.6 }}>DESIGN × CODE × A LITTLE CHAOS</motion.div>
-                <motion.h1 initial={{ opacity: 0, y: 28 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.78, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}>
-                  MAKE<br /><span className="headline-outline">IT</span> <span className="headline-accent">MATTER<span className="headline-period">.</span></span>
-                </motion.h1>
-                <motion.p className="hero-description" initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.34, duration: 0.6 }}>
-                  I build expressive digital experiences for people who are bored of the ordinary. Part engineer, part pixel obsessive, fully curious.
-                </motion.p>
-                <motion.div className="hero-actions" initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.46, duration: 0.6 }}>
-                  <a className="button button-primary" href="#work">SEE WHAT I MAKE <ArrowDownRight size={18} /></a>
-                  <a className="button button-text" href="#about">WHO'S KRRISH? <ArrowRight size={16} /></a>
-                </motion.div>
-                <div className="hero-signoff"><span>SCROLL A LITTLE. STAY A WHILE.</span><motion.span animate={{ y: [0, 7, 0] }} transition={{ repeat: Infinity, duration: 1.8, ease: "easeInOut" }}><ArrowDownRight size={19} /></motion.span></div>
-              </div>
-              <motion.div className="hero-art-wrap" initial={{ opacity: 0, scale: 0.92, rotate: 2 }} animate={{ opacity: 1, scale: 1, rotate: 0 }} transition={{ delay: 0.12, duration: 1, ease: [0.22, 1, 0.36, 1] }}>
-                <HeroScene playMode={playMode} />
+            <div className="hero-copy">
+              <div className="availability"><span /> OPEN TO INTERESTING PROJECTS <span className="availability-year">· 2026</span></div>
+              <motion.h1 initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}>
+                Building digital<br /><span>experiences with</span><br /><em>purpose.</em>
+              </motion.h1>
+              <motion.p className="hero-description" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.14, duration: 0.55 }}>
+                I'm Krrish — a developer who cares about the details. I build thoughtful web experiences where clear design, useful technology, and subtle motion meet.
+              </motion.p>
+              <motion.div className="hero-actions" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.25, duration: 0.55 }}>
+                <a className="button button-primary" href="#work">Explore my work <ArrowDownRight size={16} /></a>
+                <a className="button button-secondary" href="#contact">Get in touch <ArrowRight size={16} /></a>
               </motion.div>
-              <motion.div className="hero-side-note" style={{ rotate: starRotate }}>GOOD TASTE IS A STARTING POINT ✳ NOT THE FINISH LINE ✳</motion.div>
+              <div className="hero-quickfacts"><span><i /> FRONTEND DEVELOPMENT</span><span><i /> CREATIVE TECHNOLOGY</span></div>
             </div>
-            <div className="hero-bottomline"><span>01 / A DIFFERENT KIND OF PORTFOLIO</span><span>BUILT IN THE BROWSER, NOT A BOX.</span><span>SCROLL TO EXPLORE ↓</span></div>
+            <Reveal className="hero-art">
+              <HeroScene dark={dark} />
+              <div className="hero-art-caption"><span>Procedural 3D / 001</span><span>Move cursor to interact</span></div>
+            </Reveal>
+            <div className="hero-bottom"><span>DESIGN-MINDED DEVELOPMENT</span><span>SCROLL TO EXPLORE ↓</span></div>
           </section>
 
-          <div className="marquee-strip" aria-label="Creative code, digital craft, things that move">
-            <div className="marquee-track"><span>MAKE SOMETHING WEIRD</span><Asterisk /><span>BREAK THE GRID</span><Asterisk /><span>OBSESS OVER THE DETAILS</span><Asterisk /><span>MAKE SOMETHING WEIRD</span><Asterisk /><span>BREAK THE GRID</span><Asterisk /><span>OBSESS OVER THE DETAILS</span><Asterisk /></div>
-          </div>
+          <section className="trust-strip">
+            <div className="section-shell trust-inner"><span>WORKING WITH</span><i /> <span>REACT</span><i /> <span>JAVASCRIPT</span><i /> <span>THREE.JS</span><i /> <span>MOTION</span><i /> <span>CSS</span></div>
+          </section>
 
-          <section className="work-section section-shell section-space" id="work">
-            <Reveal className="section-intro">
-              <div><span className="section-label"><span>01</span> / SELECTED PLAYGROUND</span><h2>LESS TALK.<br /><i>MORE</i> <span>WOW.</span></h2></div>
-              <div className="intro-aside"><span className="aside-asterisk">✳</span><p>Not a wall of thumbnails. Three visual directions built around one idea: digital things should feel like something.</p><span className="small-note">SELF-INITIATED CONCEPTS — SWAP IN REAL PROJECTS</span></div>
+          <section className="work-section section-shell section-spacing" id="work">
+            <Reveal className="section-heading">
+              <div><span className="section-index">01 / SELECTED WORK</span><h2>A few things<br /><em>in progress.</em></h2></div>
+              <p>A small selection of interface and interaction concepts. Each one is an opportunity to explore how thoughtful design can make software feel simpler and more human.</p>
             </Reveal>
-            <div className="project-grid">{projects.map((project, index) => <ProjectCard key={project.n} project={project} index={index} />)}</div>
-            <Reveal className="work-footer"><span>CURIOUS WHAT ELSE I'M MAKING?</span><a href="https://github.com/Krrish19912" target="_blank" rel="noreferrer">FOLLOW THE EXPERIMENTS <MoveUpRight size={18} /></a></Reveal>
+            <div className="project-grid">{projects.map((project, index) => <ProjectCard key={project.number} project={project} index={index} />)}</div>
+            <Reveal className="work-link"><span>MORE CODE & EXPERIMENTS ON GITHUB</span><a href="https://github.com/Krrish19912" target="_blank" rel="noreferrer">Visit my GitHub <ExternalLink size={15} /></a></Reveal>
           </section>
 
           <section className="about-section" id="about">
-            <div className="about-inner section-shell">
-              <Reveal className="about-top"><span className="section-label"><span>02</span> / THE HUMAN BEHIND THE PIXELS</span><span>NO BORING BY DEFAULT.</span></Reveal>
-              <Reveal className="about-headline"><h2>I LIKE MY<br />INTERNET <span>ALIVE.</span></h2><motion.span className="about-star" style={{ rotate: starRotate }}>✳</motion.span></Reveal>
-              <div className="about-bottom">
-                <Reveal className="about-manifesto"><span className="manifesto-mark">“</span><p>The internet doesn't need more websites that look like websites. It needs tiny worlds, unexpected moments, and interfaces that make you feel something.</p></Reveal>
-                <Reveal className="about-bio"><p>I'm Krrish — a developer exploring the overlap between design, code, and playful technology. I care about the first impression, the tiny interaction, the 200 milliseconds that make a button feel alive.</p><p>I’m here for ambitious ideas, expressive visuals, and the fun part where a design that “probably won't work” suddenly does.</p><a href="https://github.com/Krrish19912" target="_blank" rel="noreferrer" className="text-link">MORE ON GITHUB <ArrowUpRight size={15} /></a></Reveal>
+            <div className="section-shell about-inner">
+              <Reveal className="about-label"><span className="section-index">02 / A LITTLE ABOUT ME</span><span className="about-note">CURIOUS BY DEFAULT.</span></Reveal>
+              <Reveal className="about-heading"><h2>Good software is<br />clear. Great software<br /><em>feels effortless.</em></h2><span className="about-monogram">K<span>.</span></span></Reveal>
+              <div className="about-content">
+                <Reveal><p className="about-lede">I’m interested in the space where engineering meets experience — the tiny choices that make a product easier to understand, more enjoyable to use, and more memorable.</p></Reveal>
+                <Reveal className="about-body"><p>My approach is simple: understand the problem, take care of the fundamentals, then add the details that make the work feel considered. Not every interaction needs to be loud. It just needs to be right.</p><a href="https://github.com/Krrish19912" target="_blank" rel="noreferrer" className="text-link">Explore my code <ArrowUpRight size={15} /></a></Reveal>
               </div>
             </div>
           </section>
 
-          <section className="services-section section-shell section-space" id="services">
-            <Reveal className="section-intro service-intro">
-              <div><span className="section-label"><span>03</span> / THINGS I DO WELL</span><h2>THE GOOD<br /><i>STUFF.</i></h2></div>
-              <p>Ideas are cheap. Making them work, feel good, and load fast? That's where things get interesting.</p>
+          <section className="capabilities-section section-shell section-spacing" id="capabilities">
+            <Reveal className="section-heading capabilities-heading">
+              <div><span className="section-index">03 / WHAT I DO</span><h2>Thoughtful by<br /><em>design.</em></h2></div>
+              <p>Good work balances craft with practicality: fast, responsive, accessible, and just distinctive enough to stay with you.</p>
             </Reveal>
-            <div className="services-list">{services.map(({ number, title, detail, icon: Icon }, index) => <Reveal key={number} delay={index * 0.07} className="service-row"><span className="service-number">{number}</span><span className="service-icon"><Icon size={23} strokeWidth={1.6} /></span><div className="service-copy"><h3>{title}</h3><p>{detail}</p></div><ArrowUpRight className="service-arrow" size={23} /></Reveal>)}</div>
-            <Reveal className="tech-stack"><span className="section-label"><span>+</span> TOOLS IN THE TOYBOX</span><div className="tech-list"><span>REACT</span><span>THREE.JS</span><span>JAVASCRIPT</span><span>MOTION</span><span>CSS</span><span>FIGMA</span><span>CREATIVE CODING</span></div></Reveal>
+            <div className="capabilities-list">{capabilities.map(({ number, title, description, icon: Icon }, index) => <Reveal key={number} delay={index * 0.05} className="capability-row"><span className="capability-number">{number}</span><span className="capability-icon"><Icon size={21} strokeWidth={1.6} /></span><div><h3>{title}</h3><p>{description}</p></div><ArrowUpRight className="capability-arrow" size={19} /></Reveal>)}</div>
+            <Reveal className="stack-row"><span className="section-index">TOOLS I USE</span><div className="stack-tags"><span>React</span><span>JavaScript</span><span>Three.js</span><span>Motion</span><span>CSS</span><span>Git</span><span>Figma</span></div></Reveal>
           </section>
 
           <section className="contact-section" id="contact">
-            <div className="contact-inner section-shell">
-              <Reveal className="contact-top"><span className="section-label"><span>04</span> / THE NEXT PART IS YOURS</span><span>GOOD IDEAS WELCOME.</span></Reveal>
-              <Reveal className="contact-headline"><h2>GOT A<br /><i>WEIRD</i> IDEA<span>?</span></h2><motion.div className="contact-stamp" animate={{ rotate: [0, 12, -7, 0] }} transition={{ repeat: Infinity, duration: 8, ease: "easeInOut" }}><SparklesIcon size={30} /><span>LET'S MAKE<br />A LITTLE<br />MAGIC</span></motion.div></Reveal>
-              <div className="contact-bottom">
-                <Reveal><p>Bring me the half-formed idea, the impossible brief, or the thing you can't stop thinking about. Let's see where it goes.</p><button className="button button-primary contact-button" onClick={copyEmail}><Mail size={17} /> {copied ? "EMAIL COPIED!" : "COPY MY EMAIL"} <ArrowUpRight size={17} /></button><span className="email-address">{email}</span></Reveal>
-                <Reveal className="contact-social"><span className="section-label">ELSEWHERE ON THE INTERNET</span><a href="https://github.com/Krrish19912" target="_blank" rel="noreferrer">GITHUB <ArrowUpRight size={15} /></a><a href="mailto:hello@krrish.dev">EMAIL <ArrowUpRight size={15} /></a></Reveal>
-              </div>
+            <div className="section-shell contact-inner">
+              <Reveal className="contact-heading"><span className="section-index">04 / CONTACT</span><h2>Have a good<br /><em>project in mind?</em></h2><p>Tell me a little about what you're building. I'd love to hear about it.</p><button className="button button-primary" type="button" onClick={copyEmail}><Mail size={16} /> {menuEmailCopied ? "Email copied" : "Copy email address"} <ArrowUpRight size={15} /></button><span className="contact-email">{email}</span></Reveal>
+              <div className="contact-side"><div className="contact-orbit"><div className="contact-orbit-core"><ArrowUpRight size={29} /></div></div><span>GOOD THINGS START WITH A CONVERSATION.</span><a href="https://github.com/Krrish19912" target="_blank" rel="noreferrer">GitHub <ExternalLink size={14} /></a><a href={"mailto:" + email}>Email <ArrowUpRight size={14} /></a></div>
             </div>
-            <div className="contact-marquee"><div className="contact-marquee-track"><span>MAKE IT MATTER</span><Asterisk /><span>MAKE IT MATTER</span><Asterisk /><span>MAKE IT MATTER</span><Asterisk /><span>MAKE IT MATTER</span><Asterisk /></div></div>
           </section>
         </main>
-        <footer className="site-footer section-shell"><a className="footer-brand" href="#top"><span className="brand-symbol">K<span>!</span></span><span>BACK TO THE TOP ↑</span></a><span>© {new Date().getFullYear()} KRR/ISH — BUILT WITH CURIOSITY.</span><span>NO PIXELS WERE BORED IN THE MAKING.</span></footer>
+        <footer className="site-footer section-shell"><a className="footer-brand" href="#top"><span className="brand-mark">K<span>.</span></span><span>KRRISH / DEVELOPER</span></a><span>© {new Date().getFullYear()} KRRISH. BUILT WITH CARE.</span><a href="#top" className="back-to-top">BACK TO TOP ↑</a></footer>
       </div>
     </MotionConfig>
   );
