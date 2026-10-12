@@ -21,7 +21,7 @@ const projects = [
   {
     id: "skin-lesion",
     number: "01",
-    title: "Skin Lesion Detection",
+    title: "Skin Cancer Detection System",
     subtitle: "A computer-vision experiment for image-based screening.",
     category: "Machine learning",
     kind: "COMPUTER VISION",
@@ -221,14 +221,14 @@ function HeroVisual() {
         <span className="metric-label"><BarChart3 size={14} /> BUILD / EXPLORE / REFINE</span>
         <div className="mini-bars" aria-hidden="true">
           {[24, 36, 28, 51, 43, 65, 57, 83, 70, 96, 76, 89].map((height, index) => (
-            <i key={index} style={{ "--bar-height": height + "%", "--bar-index": index }} />
+            <i key={index} style={{ "--bar-height": height + "%", opacity: 0.42 + index * 0.045, animationDelay: index * 35 + "ms" }} />
           ))}
         </div>
         <small>ANALYSIS → VISUAL STORY</small>
       </div>
       <div className="hero-visual-footer"><span>PYTHON</span><i /><span>ML SYSTEMS</span><i /><span>DATA VISUALIZATION</span></div>
-      <span className="hero-coordinate coordinate-one">22° 03' N</span>
-      <span className="hero-coordinate coordinate-two">72° 55' E</span>
+      <span className="hero-coordinate coordinate-one">DATA / 01</span>
+      <span className="hero-coordinate coordinate-two">ML / 02</span>
     </div>
   );
 }
