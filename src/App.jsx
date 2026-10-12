@@ -3,97 +3,78 @@ import { Canvas, useFrame } from "@react-three/fiber";
 import { Environment, Float, Sparkles } from "@react-three/drei";
 import { MotionConfig, motion, useReducedMotion, useScroll, useSpring } from "motion/react";
 import {
-  ArrowDownRight, ArrowRight, ArrowUpRight, Braces, Code2, ExternalLink,
-  Layers3, Mail, Menu, Moon, Sun, Terminal, X
+  ArrowDownRight, ArrowUpRight, Check, Code2, ExternalLink,
+  Layers3, Menu, Moon, Sun, X
 } from "lucide-react";
 import * as THREE from "three";
 
-const projects = [
+const focusAreas = [
   {
     number: "01",
-    title: "Northstar",
-    type: "DASHBOARD · PRODUCT CONCEPT",
-    description: "A clear, considered analytics workspace that turns a busy data view into a useful daily tool.",
-    tags: ["React", "Data visualization", "UI design"],
-    preview: "northstar"
+    title: "Frontend development",
+    description: "Thoughtful React components, responsive layouts, and interfaces that hold together from phone to desktop.",
+    icon: Code2,
+    tools: "REACT · JAVASCRIPT · CSS"
   },
   {
     number: "02",
-    title: "Forma",
-    type: "COMMERCE · INTERACTION CONCEPT",
-    description: "A quiet product storefront exploring generous space, tactile details, and simple decisions.",
-    tags: ["E-commerce", "Three.js", "Motion"],
-    preview: "forma"
+    title: "Interaction & motion",
+    description: "Small transitions and clear feedback that help a product feel considered, not distracting.",
+    icon: Layers3,
+    tools: "MOTION · INTERACTION DESIGN"
   },
   {
     number: "03",
-    title: "Fieldnotes",
-    type: "CREATIVE TOOL · INTERFACE CONCEPT",
-    description: "A focused writing space designed to keep the work in front and the interface out of the way.",
-    tags: ["React", "Design systems", "Accessibility"],
-    preview: "fieldnotes"
+    title: "Creative technology",
+    description: "Exploring what happens when regular interfaces meet a little geometry, depth, or real-time rendering.",
+    icon: Code2,
+    tools: "THREE.JS · WEBGL"
   }
 ];
 
-const capabilities = [
-  { number: "01", title: "Frontend engineering", description: "Responsive, maintainable interfaces with attention to detail.", icon: Code2 },
-  { number: "02", title: "Creative interaction", description: "Motion and 3D used with intention, never just for decoration.", icon: Layers3 },
-  { number: "03", title: "UI systems", description: "Consistent components and thoughtful states that make products feel complete.", icon: Braces }
-];
-
-function HeroObject({ dark }) {
-  const sculpture = useRef();
-  const ringA = useRef();
-  const ringB = useRef();
+function Sculpture({ dark, reducedMotion }) {
+  const core = useRef();
+  const ring = useRef();
 
   useFrame((state, delta) => {
-    if (!sculpture.current) return;
-    sculpture.current.rotation.y += delta * 0.12;
-    sculpture.current.rotation.x = THREE.MathUtils.damp(
-      sculpture.current.rotation.x,
-      state.pointer.y * 0.12,
-      2.5,
-      delta
-    );
-    sculpture.current.rotation.z = THREE.MathUtils.damp(
-      sculpture.current.rotation.z,
-      -state.pointer.x * 0.08,
-      2.5,
-      delta
-    );
-    if (ringA.current) ringA.current.rotation.z += delta * 0.08;
-    if (ringB.current) ringB.current.rotation.y -= delta * 0.05;
+    if (reducedMotion) return;
+    if (core.current) {
+      core.current.rotation.y += delta * 0.13;
+      core.current.rotation.x = THREE.MathUtils.damp(core.current.rotation.x, state.pointer.y * 0.16, 2.6, delta);
+      core.current.rotation.z = THREE.MathUtils.damp(core.current.rotation.z, -state.pointer.x * 0.11, 2.6, delta);
+    }
+    if (ring.current) ring.current.rotation.z += delta * 0.07;
   });
 
   return (
     <group>
-      <Float speed={1.15} rotationIntensity={0.12} floatIntensity={0.2}>
-        <group ref={sculpture} scale={1.04}>
+      <Float speed={reducedMotion ? 0 : 0.7} rotationIntensity={reducedMotion ? 0 : 0.08} floatIntensity={reducedMotion ? 0 : 0.16}>
+        <group ref={core} scale={1.02}>
           <mesh>
             <icosahedronGeometry args={[1, 5]} />
             <meshPhysicalMaterial
-              color={dark ? "#a9c9c5" : "#dcebe7"}
-              roughness={0.23}
-              metalness={0.18}
-              clearcoat={1}
-              clearcoatRoughness={0.14}
+              color={dark ? "#8fb8aa" : "#b9d0c6"}
+              roughness={0.28}
+              metalness={0.12}
+              clearcoat={0.65}
+              clearcoatRoughness={0.2}
             />
           </mesh>
           <mesh scale={1.012}>
             <icosahedronGeometry args={[1, 2]} />
-            <meshBasicMaterial color={dark ? "#d3e7df" : "#4b736e"} wireframe transparent opacity={0.22} />
+            <meshBasicMaterial color={dark ? "#dce9e1" : "#547b6b"} wireframe transparent opacity={0.2} />
           </mesh>
         </group>
       </Float>
-      <mesh ref={ringA} rotation={[1.05, 0.22, -0.35]} scale={[1.52, 1.52, 1.52]}>
-        <torusGeometry args={[1, 0.006, 8, 180]} />
-        <meshBasicMaterial color={dark ? "#a6c7c1" : "#537d76"} transparent opacity={0.82} />
+      <mesh ref={ring} rotation={[1.08, 0.2, -0.28]} scale={[1.49, 1.49, 1.49]}>
+        <torusGeometry args={[1, 0.006, 8, 160]} />
+        <meshBasicMaterial color={dark ? "#9fbeb2" : "#769687"} transparent opacity={0.8} />
       </mesh>
-      <mesh ref={ringB} rotation={[0.45, -0.6, 0.18]} scale={[1.78, 1.78, 1.78]}>
-        <torusGeometry args={[1, 0.003, 8, 180]} />
-        <meshBasicMaterial color={dark ? "#b9c9c2" : "#8e9e97"} transparent opacity={0.68} />
+      <mesh rotation={[0.35, -0.64, 0.17]} scale={[1.72, 1.72, 1.72]}>
+        <torusGeometry args={[1, 0.003, 8, 160]} />
+        <meshBasicMaterial color={dark ? "#d4dfd9" : "#9baea4"} transparent opacity={0.6} />
       </mesh>
-      <Sparkles count={24} scale={3.8} size={1.6} speed={0.14} color={dark ? "#d5e5dc" : "#617d75"} opacity={0.65} />
+      <Sparkles count={18} scale={3.6} size={1.35} speed={reducedMotion ? 0 : 0.12} color={dark ? "#d6e4db" : "#648275"} opacity={0.6} />
     </group>
   );
 }
@@ -101,42 +82,25 @@ function HeroObject({ dark }) {
 function HeroScene({ dark }) {
   const reducedMotion = useReducedMotion();
   return (
-    <div className="hero-scene" aria-label="Interactive 3D geometric sculpture">
+    <div className="hero-scene" aria-label="Interactive geometric study">
+      <div className="scene-kicker"><span>STUDY Nº 01</span><span>INTERACTIVE FORM</span></div>
       <div className="scene-glow" />
-      <div className="scene-topline"><span>FORM STUDY No. 01</span><span>INTERACTIVE OBJECT</span></div>
       <Canvas
-        camera={{ position: [0, 0, 4.35], fov: 42 }}
-        dpr={[1, 1.4]}
+        camera={{ position: [0, 0, 4.4], fov: 42 }}
+        dpr={[1, 1.35]}
         gl={{ antialias: true, alpha: true }}
         onCreated={({ gl }) => { gl.toneMapping = THREE.ACESFilmicToneMapping; }}
       >
-        <ambientLight intensity={0.9} />
-        <directionalLight position={[4, 4, 4]} intensity={2.6} color="#fff8e9" />
-        <pointLight position={[-3, -2, 2]} intensity={dark ? 7 : 9} color="#8dbdb2" />
+        <ambientLight intensity={1} />
+        <directionalLight position={[4, 4, 4]} intensity={2.5} color="#fff7e9" />
+        <pointLight position={[-3, -2, 2]} intensity={dark ? 7 : 8} color="#86b6a5" />
         <Suspense fallback={null}>
           <Environment preset="studio" />
-          {reducedMotion
-            ? <HeroObjectStatic dark={dark} />
-            : <HeroObject dark={dark} />}
+          <Sculpture dark={dark} reducedMotion={Boolean(reducedMotion)} />
         </Suspense>
       </Canvas>
-      <div className="scene-bottomline"><span>DRAG WITH YOUR CURSOR</span><span>01 — 03</span></div>
+      <div className="scene-caption"><span>THREE.JS / REACT THREE FIBER</span><span>MOVE TO EXPLORE ↗</span></div>
     </div>
-  );
-}
-
-function HeroObjectStatic({ dark }) {
-  return (
-    <group>
-      <mesh>
-        <icosahedronGeometry args={[1.04, 4]} />
-        <meshPhysicalMaterial color={dark ? "#a9c9c5" : "#dcebe7"} roughness={0.25} metalness={0.15} clearcoat={1} />
-      </mesh>
-      <mesh rotation={[1.05, 0.22, -0.35]} scale={[1.52, 1.52, 1.52]}>
-        <torusGeometry args={[1, 0.006, 8, 180]} />
-        <meshBasicMaterial color={dark ? "#a6c7c1" : "#537d76"} />
-      </mesh>
-    </group>
   );
 }
 
@@ -145,99 +109,66 @@ function Reveal({ children, className = "", delay = 0 }) {
   return (
     <motion.div
       className={className}
-      initial={reducedMotion ? false : { opacity: 0, y: 20 }}
+      initial={reducedMotion ? false : { opacity: 0, y: 16 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.14 }}
-      transition={{ duration: reducedMotion ? 0 : 0.58, delay, ease: [0.22, 1, 0.36, 1] }}
+      viewport={{ once: true, amount: 0.12 }}
+      transition={{ duration: reducedMotion ? 0 : 0.48, delay, ease: [0.22, 1, 0.36, 1] }}
     >
       {children}
     </motion.div>
   );
 }
 
-function ProjectPreview({ type }) {
-  if (type === "northstar") {
-    return (
-      <div className="preview preview-northstar">
-        <div className="preview-sidebar"><span className="mini-logo">n.</span><i /><i /><i /><i /></div>
-        <div className="dashboard">
-          <div className="dash-head"><span>Overview</span><span className="mini-select">Last 30 days⌄</span></div>
-          <div className="dash-stats">
-            <div><small>Revenue</small><b>$48,290</b><em>↗ 12.8%</em></div>
-            <div><small>Customers</small><b>2,841</b><em>↗ 8.4%</em></div>
-            <div><small>Conversion</small><b>4.86%</b><em>↗ 2.1%</em></div>
-          </div>
-          <div className="dash-chart"><div className="chart-guides"><i /><i /><i /><i /></div><svg viewBox="0 0 420 110" preserveAspectRatio="none" aria-hidden="true"><path d="M0 88 C24 83 35 54 60 67 S100 83 123 50 S163 61 188 41 S227 65 253 35 S296 54 320 20 S372 46 420 8" fill="none" stroke="currentColor" strokeWidth="2.5" vectorEffect="non-scaling-stroke"/><path d="M0 88 C24 83 35 54 60 67 S100 83 123 50 S163 61 188 41 S227 65 253 35 S296 54 320 20 S372 46 420 8 L420 110 L0 110Z" fill="currentColor" opacity=".07"/></svg></div>
-          <div className="dash-legend"><span><i /> Revenue</span><span>JAN 01 — JAN 30</span></div>
-        </div>
-      </div>
-    );
-  }
-  if (type === "forma") {
-    return (
-      <div className="preview preview-forma">
-        <div className="forma-top"><span>FORMA / STUDIO</span><span>OBJECTS THAT LAST</span><span>SHOP ↗</span></div>
-        <div className="forma-copy"><small>THE EVERYDAY COLLECTION</small><b>Good design.<br /><i>Less noise.</i></b><span>Considered objects for slower living.</span><div className="forma-cta">EXPLORE COLLECTION <ArrowUpRight size={13} /></div></div>
-        <div className="forma-object"><div className="forma-object-cap" /><div className="forma-object-neck" /><div className="forma-object-body"><span>F / 01</span></div><div className="forma-object-shadow" /></div>
-        <div className="forma-index">FORM 01 — 2025</div>
-      </div>
-    );
-  }
-  return (
-    <div className="preview preview-fieldnotes">
-      <div className="notes-top"><span className="notes-brand">fieldnotes<span>.</span></span><span>Untitled / Draft 04</span><span>•••</span></div>
-      <div className="notes-body">
-        <div className="notes-date">MONDAY, 09:41 AM</div>
-        <div className="notes-title">Ideas need<br /><i>room to grow.</i></div>
-        <div className="notes-lines"><i /><i /><i /><i /></div>
-        <div className="notes-quote">“Make space for<br />the first draft.”</div>
-        <div className="notes-footer"><span>124 WORDS</span><span>ALL CHANGES SAVED ✓</span></div>
-      </div>
-      <div className="notes-decoration">f.</div>
-    </div>
-  );
-}
-
-function ProjectCard({ project, index }) {
-  return (
-    <Reveal className="project-card" delay={index * 0.06}>
-      <div className={"project-preview project-preview-" + project.preview}>
-        <ProjectPreview type={project.preview} />
-        <span className="preview-number">{project.number}</span>
-      </div>
-      <div className="project-meta">
-        <div><span className="eyebrow">{project.type}</span><h3>{project.title}</h3></div>
-        <span className="project-arrow"><ArrowUpRight size={19} /></span>
-      </div>
-      <p className="project-description">{project.description}</p>
-      <div className="project-tags">{project.tags.map(tag => <span key={tag}>{tag}</span>)}</div>
-      <span className="concept-note">SELF-INITIATED CONCEPT</span>
-    </Reveal>
-  );
-}
-
 function ThemeToggle({ dark, onToggle }) {
   return (
-    <button className="theme-toggle" type="button" onClick={onToggle} aria-label={dark ? "Switch to light mode" : "Switch to dark mode"} title={dark ? "Switch to light mode" : "Switch to dark mode"}>
+    <button
+      className="theme-toggle"
+      type="button"
+      onClick={onToggle}
+      aria-label={dark ? "Switch to light mode" : "Switch to dark mode"}
+      title={dark ? "Switch to light mode" : "Switch to dark mode"}
+    >
       {dark ? <Sun size={16} /> : <Moon size={16} />}
-      <span>{dark ? "LIGHT MODE" : "DARK MODE"}</span>
+      <span>{dark ? "Light" : "Dark"}</span>
     </button>
   );
 }
 
-function Header({ dark, onThemeToggle }) {
+function Header({ dark, onToggle }) {
   const [menuOpen, setMenuOpen] = useState(false);
-  const links = [["Work", "#work"], ["About", "#about"], ["Capabilities", "#capabilities"]];
+  const links = [["Work", "#work"], ["Approach", "#approach"], ["About", "#about"]];
   return (
     <header className="site-header section-shell">
-      <a className="brand" href="#top" aria-label="Krrish home"><span className="brand-mark">K<span>.</span></span><span className="brand-copy">KRRISH<small>DEVELOPER / DESIGNER</small></span></a>
+      <a className="brand" href="#top" aria-label="Krrish, home">
+        <span className="brand-mark">k.</span>
+        <span className="brand-name">Krrish<small>FRONTEND DEVELOPER</small></span>
+      </a>
       <nav className={menuOpen ? "main-nav nav-open" : "main-nav"} aria-label="Main navigation">
-        {links.map(([label, href]) => <a key={label} href={href} onClick={() => setMenuOpen(false)}>{label}</a>)}
-        <ThemeToggle dark={dark} onToggle={onThemeToggle} />
-        <a className="nav-contact" href="#contact" onClick={() => setMenuOpen(false)}>LET'S TALK <ArrowUpRight size={15} /></a>
+        {links.map(([label, href]) => (
+          <a key={label} href={href} onClick={() => setMenuOpen(false)}>{label}</a>
+        ))}
+        <ThemeToggle dark={dark} onToggle={onToggle} />
+        <a className="nav-cta" href="#contact" onClick={() => setMenuOpen(false)}>Get in touch <ArrowUpRight size={14} /></a>
       </nav>
-      <button className="menu-toggle" type="button" onClick={() => setMenuOpen(!menuOpen)} aria-label={menuOpen ? "Close navigation" : "Open navigation"} aria-expanded={menuOpen}>{menuOpen ? <X /> : <Menu />}</button>
+      <button className="menu-toggle" type="button" onClick={() => setMenuOpen(!menuOpen)} aria-label={menuOpen ? "Close navigation" : "Open navigation"} aria-expanded={menuOpen}>
+        {menuOpen ? <X /> : <Menu />}
+      </button>
     </header>
+  );
+}
+
+function PortfolioPreview() {
+  return (
+    <div className="browser-preview" aria-label="Illustration of the portfolio interface">
+      <div className="browser-top"><div className="browser-dots"><i /><i /><i /></div><span>krrish.dev / work</span><span className="browser-top-right">↗</span></div>
+      <div className="browser-page">
+        <div className="browser-nav"><span className="browser-logo">k.</span><span>WORK&nbsp;&nbsp;&nbsp; ABOUT&nbsp;&nbsp;&nbsp; CONTACT</span></div>
+        <div className="browser-heading">Building useful things<br /><em>for the web.</em></div>
+        <div className="browser-rule" />
+        <div className="browser-bottom"><span>REACT · CSS · THREE.JS</span><span>01 / 01</span></div>
+        <div className="browser-orb"><div /></div>
+      </div>
+    </div>
   );
 }
 
@@ -252,98 +183,116 @@ function App() {
       return false;
     }
   });
-  const [menuEmailCopied, setMenuEmailCopied] = useState(false);
   const { scrollYProgress } = useScroll();
   const progress = useSpring(scrollYProgress, { stiffness: 90, damping: 24, restDelta: 0.001 });
-  const email = "hello@krrish.dev";
 
   useEffect(() => {
     const theme = dark ? "dark" : "light";
     document.documentElement.style.colorScheme = theme;
-    document.querySelector('meta[name="theme-color"]')?.setAttribute("content", dark ? "#111817" : "#f6f7f4");
-    try { window.localStorage.setItem("krrish-theme", theme); } catch { /* Storage may be unavailable. */ }
+    document.querySelector('meta[name="theme-color"]')?.setAttribute("content", dark ? "#111816" : "#f7f7f3");
+    try { window.localStorage.setItem("krrish-theme", theme); } catch { /* Storage can be unavailable. */ }
   }, [dark]);
-
-  const toggleTheme = () => setDark(value => !value);
-  const copyEmail = async () => {
-    try {
-      await navigator.clipboard.writeText(email);
-      setMenuEmailCopied(true);
-      window.setTimeout(() => setMenuEmailCopied(false), 1800);
-    } catch {
-      window.location.href = "mailto:" + email;
-    }
-  };
 
   return (
     <MotionConfig reducedMotion="user">
       <div className="app-shell" data-theme={dark ? "dark" : "light"} id="top">
         <motion.div className="scroll-progress" style={{ scaleX: progress }} />
-        <Header dark={dark} onThemeToggle={toggleTheme} />
+        <Header dark={dark} onToggle={() => setDark(value => !value)} />
         <main>
           <section className="hero section-shell" id="home">
             <div className="hero-copy">
-              <div className="availability"><span /> OPEN TO INTERESTING PROJECTS <span className="availability-year">· 2026</span></div>
-              <motion.h1 initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}>
-                Building digital<br /><span>experiences with</span><br /><em>purpose.</em>
+              <div className="intro-line"><span className="status-dot" /> Independent developer <span className="intro-divider">/</span> 2026</div>
+              <motion.h1
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+              >
+                Thoughtful<br />websites, built<br /><em>with care.</em>
               </motion.h1>
-              <motion.p className="hero-description" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.14, duration: 0.55 }}>
-                I'm Krrish — a developer who cares about the details. I build thoughtful web experiences where clear design, useful technology, and subtle motion meet.
+              <motion.p className="hero-lede" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.12, duration: 0.5 }}>
+                I’m Krrish. I work with React, JavaScript and CSS to make websites that feel clear, responsive and considered — down to the small details.
               </motion.p>
-              <motion.div className="hero-actions" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.25, duration: 0.55 }}>
-                <a className="button button-primary" href="#work">Explore my work <ArrowDownRight size={16} /></a>
-                <a className="button button-secondary" href="#contact">Get in touch <ArrowRight size={16} /></a>
+              <motion.div className="hero-actions" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.22, duration: 0.5 }}>
+                <a className="button button-primary" href="#work">See my work <ArrowDownRight size={16} /></a>
+                <a className="button button-quiet" href="https://github.com/Krrish19912" target="_blank" rel="noreferrer">GitHub profile <ExternalLink size={14} /></a>
               </motion.div>
-              <div className="hero-quickfacts"><span><i /> FRONTEND DEVELOPMENT</span><span><i /> CREATIVE TECHNOLOGY</span></div>
+              <div className="hero-footnote"><span>FRONTEND DEVELOPMENT</span><span>INTERFACE & INTERACTION</span></div>
             </div>
             <Reveal className="hero-art">
               <HeroScene dark={dark} />
-              <div className="hero-art-caption"><span>Procedural 3D / 001</span><span>Move cursor to interact</span></div>
             </Reveal>
-            <div className="hero-bottom"><span>DESIGN-MINDED DEVELOPMENT</span><span>SCROLL TO EXPLORE ↓</span></div>
+            <div className="hero-index"><span>01</span><i /><span>04</span></div>
           </section>
 
-          <section className="trust-strip">
-            <div className="section-shell trust-inner"><span>WORKING WITH</span><i /> <span>REACT</span><i /> <span>JAVASCRIPT</span><i /> <span>THREE.JS</span><i /> <span>MOTION</span><i /> <span>CSS</span></div>
-          </section>
+          <div className="principles-bar"><div className="section-shell principles-inner"><span>Good work starts with</span><span>Clarity</span><i>·</i><span>Craft</span><i>·</i><span>Curiosity</span></div></div>
 
           <section className="work-section section-shell section-spacing" id="work">
             <Reveal className="section-heading">
-              <div><span className="section-index">01 / SELECTED WORK</span><h2>A few things<br /><em>in progress.</em></h2></div>
-              <p>A small selection of interface and interaction concepts. Each one is an opportunity to explore how thoughtful design can make software feel simpler and more human.</p>
+              <div><span className="section-kicker">01 <i>/</i> SELECTED WORK</span><h2>Made with<br /><em>intention.</em></h2></div>
+              <p>I’m building this portfolio as a home for my work and experiments. Here’s the site itself — a small project combining interface design, responsive React, and a little real-time 3D.</p>
             </Reveal>
-            <div className="project-grid">{projects.map((project, index) => <ProjectCard key={project.number} project={project} index={index} />)}</div>
-            <Reveal className="work-link"><span>MORE CODE & EXPERIMENTS ON GITHUB</span><a href="https://github.com/Krrish19912" target="_blank" rel="noreferrer">Visit my GitHub <ExternalLink size={15} /></a></Reveal>
+            <Reveal className="featured-project">
+              <a className="featured-visual" href="https://github.com/Krrish19912/chatgpt" target="_blank" rel="noreferrer" aria-label="View the portfolio source code on GitHub">
+                <PortfolioPreview />
+                <span className="featured-open"><ArrowUpRight size={20} /></span>
+              </a>
+              <div className="featured-copy">
+                <div className="featured-meta"><span>PERSONAL PROJECT</span><span>REACT · VITE</span></div>
+                <div className="featured-title-row"><h3>Personal portfolio</h3><span className="year-label">2026</span></div>
+                <p>A responsive portfolio with a simple theme system, a custom Three.js study, and a focus on readable layouts over visual noise.</p>
+                <div className="featured-foot"><span className="project-status"><i /> Ongoing</span><a href="https://github.com/Krrish19912/chatgpt" target="_blank" rel="noreferrer">View source code <ArrowUpRight size={15} /></a></div>
+              </div>
+            </Reveal>
+            <div className="work-honesty"><span className="honesty-mark">+</span><p>I’ll add more projects here as they’re ready to share. I’d rather show fewer things with context than fill the page with placeholder case studies.</p></div>
           </section>
 
-          <section className="about-section" id="about">
-            <div className="section-shell about-inner">
-              <Reveal className="about-label"><span className="section-index">02 / A LITTLE ABOUT ME</span><span className="about-note">CURIOUS BY DEFAULT.</span></Reveal>
-              <Reveal className="about-heading"><h2>Good software is<br />clear. Great software<br /><em>feels effortless.</em></h2><span className="about-monogram">K<span>.</span></span></Reveal>
-              <div className="about-content">
-                <Reveal><p className="about-lede">I’m interested in the space where engineering meets experience — the tiny choices that make a product easier to understand, more enjoyable to use, and more memorable.</p></Reveal>
-                <Reveal className="about-body"><p>My approach is simple: understand the problem, take care of the fundamentals, then add the details that make the work feel considered. Not every interaction needs to be loud. It just needs to be right.</p><a href="https://github.com/Krrish19912" target="_blank" rel="noreferrer" className="text-link">Explore my code <ArrowUpRight size={15} /></a></Reveal>
+          <section className="approach-section" id="approach">
+            <div className="section-shell approach-inner">
+              <Reveal className="approach-heading">
+                <span className="section-kicker">02 <i>/</i> CURRENT FOCUS</span>
+                <h2>Care about<br /><em>the details.</em></h2>
+                <p>The best interfaces don’t need to call attention to themselves. They make the next step feel obvious.</p>
+              </Reveal>
+              <div className="focus-list">
+                {focusAreas.map(({ number, title, description, icon: Icon, tools }, index) => (
+                  <Reveal key={number} delay={index * 0.05} className="focus-row">
+                    <span className="focus-number">{number}</span>
+                    <span className="focus-icon"><Icon size={19} strokeWidth={1.6} /></span>
+                    <div className="focus-copy"><h3>{title}</h3><p>{description}</p><span>{tools}</span></div>
+                    <ArrowUpRight className="focus-arrow" size={17} />
+                  </Reveal>
+                ))}
               </div>
             </div>
           </section>
 
-          <section className="capabilities-section section-shell section-spacing" id="capabilities">
-            <Reveal className="section-heading capabilities-heading">
-              <div><span className="section-index">03 / WHAT I DO</span><h2>Thoughtful by<br /><em>design.</em></h2></div>
-              <p>Good work balances craft with practicality: fast, responsive, accessible, and just distinctive enough to stay with you.</p>
-            </Reveal>
-            <div className="capabilities-list">{capabilities.map(({ number, title, description, icon: Icon }, index) => <Reveal key={number} delay={index * 0.05} className="capability-row"><span className="capability-number">{number}</span><span className="capability-icon"><Icon size={21} strokeWidth={1.6} /></span><div><h3>{title}</h3><p>{description}</p></div><ArrowUpRight className="capability-arrow" size={19} /></Reveal>)}</div>
-            <Reveal className="stack-row"><span className="section-index">TOOLS I USE</span><div className="stack-tags"><span>React</span><span>JavaScript</span><span>Three.js</span><span>Motion</span><span>CSS</span><span>Git</span><span>Figma</span></div></Reveal>
+          <section className="about-section section-shell section-spacing" id="about">
+            <Reveal className="about-top"><span className="section-kicker">03 <i>/</i> A LITTLE ABOUT ME</span><span className="about-aside">Learning by making.</span></Reveal>
+            <div className="about-content">
+              <Reveal className="about-statement"><h2>I like the<br />space between<br /><em>design and code.</em></h2></Reveal>
+              <Reveal className="about-copy">
+                <p>It’s where a layout becomes a point of view, where a component starts to feel right, and where careful engineering gives a good idea room to work.</p>
+                <p>I’m interested in practical frontend development, thoughtful visual systems, and the occasional experiment that pushes the browser a little further.</p>
+                <a className="text-link" href="https://github.com/Krrish19912" target="_blank" rel="noreferrer">Find me on GitHub <ArrowUpRight size={15} /></a>
+              </Reveal>
+            </div>
+            <div className="tool-row"><span className="section-kicker">TOOLS I’M USING</span><div className="tool-list"><span>React</span><span>JavaScript</span><span>CSS</span><span>Three.js</span><span>Motion</span><span>Git</span></div></div>
           </section>
 
           <section className="contact-section" id="contact">
             <div className="section-shell contact-inner">
-              <Reveal className="contact-heading"><span className="section-index">04 / CONTACT</span><h2>Have a good<br /><em>project in mind?</em></h2><p>Tell me a little about what you're building. I'd love to hear about it.</p><button className="button button-primary" type="button" onClick={copyEmail}><Mail size={16} /> {menuEmailCopied ? "Email copied" : "Copy email address"} <ArrowUpRight size={15} /></button><span className="contact-email">{email}</span></Reveal>
-              <div className="contact-side"><div className="contact-orbit"><div className="contact-orbit-core"><ArrowUpRight size={29} /></div></div><span>GOOD THINGS START WITH A CONVERSATION.</span><a href="https://github.com/Krrish19912" target="_blank" rel="noreferrer">GitHub <ExternalLink size={14} /></a><a href={"mailto:" + email}>Email <ArrowUpRight size={14} /></a></div>
+              <div className="contact-main">
+                <Reveal><span className="section-kicker">04 <i>/</i> CONTACT</span><h2>Have something<br /><em>in mind?</em></h2><p>I'm always glad to connect with people making thoughtful things for the web.</p><a className="button button-primary" href="https://github.com/Krrish19912" target="_blank" rel="noreferrer">Connect on GitHub <ArrowUpRight size={16} /></a></Reveal>
+              </div>
+              <Reveal className="contact-card">
+                <span className="contact-card-label">ELSEWHERE</span>
+                <a href="https://github.com/Krrish19912" target="_blank" rel="noreferrer"><span><b>GitHub</b><small>Code, projects and experiments</small></span><ArrowUpRight size={18} /></a>
+                <a href="https://github.com/Krrish19912/chatgpt" target="_blank" rel="noreferrer"><span><b>This portfolio</b><small>Built with React, Vite and Three.js</small></span><ArrowUpRight size={18} /></a>
+              </Reveal>
             </div>
           </section>
         </main>
-        <footer className="site-footer section-shell"><a className="footer-brand" href="#top"><span className="brand-mark">K<span>.</span></span><span>KRRISH / DEVELOPER</span></a><span>© {new Date().getFullYear()} KRRISH. BUILT WITH CARE.</span><a href="#top" className="back-to-top">BACK TO TOP ↑</a></footer>
+        <footer className="site-footer section-shell"><a href="#top" className="footer-brand"><span className="brand-mark">k.</span>Krrish</a><span>DESIGNED & BUILT WITH CARE</span><a href="#top" className="back-top">Back to top ↑</a></footer>
       </div>
     </MotionConfig>
   );
