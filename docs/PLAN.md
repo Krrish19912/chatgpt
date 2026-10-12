@@ -32,7 +32,7 @@ Present Krrish as an early-career data science / machine-learning candidate who 
 
 ## Verification checklist
 
-- Run \`npm run build\` on Node.js 22
+- Run `npm run build` on Node.js 22
 - Check narrow/mobile layouts, category filters and case-note toggles
 - Check keyboard focus and reduced-motion preference
 - Confirm external URLs and contact details
