@@ -53,7 +53,7 @@ function Sculpture({ dark, reducedMotion }) {
           <mesh>
             <icosahedronGeometry args={[1, 5]} />
             <meshPhysicalMaterial
-              color={dark ? "#8fb8aa" : "#b9d0c6"}
+              color={dark ? "#5bbdcc" : "#b5d9df"}
               roughness={0.28}
               metalness={0.12}
               clearcoat={0.65}
@@ -62,19 +62,19 @@ function Sculpture({ dark, reducedMotion }) {
           </mesh>
           <mesh scale={1.012}>
             <icosahedronGeometry args={[1, 2]} />
-            <meshBasicMaterial color={dark ? "#dce9e1" : "#547b6b"} wireframe transparent opacity={0.2} />
+            <meshBasicMaterial color={dark ? "#c3f4f7" : "#367f91"} wireframe transparent opacity={0.2} />
           </mesh>
         </group>
       </Float>
       <mesh ref={ring} rotation={[1.08, 0.2, -0.28]} scale={[1.49, 1.49, 1.49]}>
         <torusGeometry args={[1, 0.006, 8, 160]} />
-        <meshBasicMaterial color={dark ? "#9fbeb2" : "#769687"} transparent opacity={0.8} />
+        <meshBasicMaterial color={dark ? "#72dce7" : "#1b7e92"} transparent opacity={0.8} />
       </mesh>
       <mesh rotation={[0.35, -0.64, 0.17]} scale={[1.72, 1.72, 1.72]}>
         <torusGeometry args={[1, 0.003, 8, 160]} />
-        <meshBasicMaterial color={dark ? "#d4dfd9" : "#9baea4"} transparent opacity={0.6} />
+        <meshBasicMaterial color={dark ? "#abdbe4" : "#8ab6c1"} transparent opacity={0.6} />
       </mesh>
-      <Sparkles count={18} scale={3.6} size={1.35} speed={reducedMotion ? 0 : 0.12} color={dark ? "#d6e4db" : "#648275"} opacity={0.6} />
+      <Sparkles count={18} scale={3.6} size={1.35} speed={reducedMotion ? 0 : 0.12} color={dark ? "#c7f4f7" : "#4b91a2"} opacity={0.6} />
     </group>
   );
 }
@@ -93,7 +93,7 @@ function HeroScene({ dark }) {
       >
         <ambientLight intensity={1} />
         <directionalLight position={[4, 4, 4]} intensity={2.5} color="#fff7e9" />
-        <pointLight position={[-3, -2, 2]} intensity={dark ? 7 : 8} color="#86b6a5" />
+        <pointLight position={[-3, -2, 2]} intensity={dark ? 7 : 8} color="#43bccb" />
         <Suspense fallback={null}>
           <Environment preset="studio" />
           <Sculpture dark={dark} reducedMotion={Boolean(reducedMotion)} />
@@ -189,7 +189,7 @@ function App() {
   useEffect(() => {
     const theme = dark ? "dark" : "light";
     document.documentElement.style.colorScheme = theme;
-    document.querySelector('meta[name="theme-color"]')?.setAttribute("content", dark ? "#111816" : "#f7f7f3");
+    document.querySelector('meta[name="theme-color"]')?.setAttribute("content", dark ? "#0c1420" : "#f4f7fa");
     try { window.localStorage.setItem("krrish-theme", theme); } catch { /* Storage can be unavailable. */ }
   }, [dark]);
 
