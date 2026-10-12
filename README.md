@@ -22,21 +22,21 @@ A responsive, single-page portfolio focused on data analysis, machine learning, 
 
 Node.js 22 is used in the repository build workflow.
 
-\`\`\`bash
+```bash
 npm install
 npm run dev
-\`\`\`
+```
 
 Create and preview a production build:
 
-\`\`\`bash
+```bash
 npm run build
 npm run preview
-\`\`\`
+```
 
 ## Project structure
 
-\`\`\`
+```
 .
 ├── docs/
 │   ├── DESIGN_REFERENCES.md
@@ -50,7 +50,7 @@ npm run preview
 ├── index.html
 ├── package.json
 └── vite.config.js
-\`\`\`
+```
 
 ## Content and links
 
