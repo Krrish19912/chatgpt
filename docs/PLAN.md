@@ -1,73 +1,43 @@
-# Portfolio build plan
+# Art-directed portfolio redesign
 
-## Creative direction
+## New creative direction: MAKE IT MATTER
 
-**Working title:** Krrish — Creative Developer  
-**Concept:** A digital studio / interactive portfolio that feels precise, experimental, and a little otherworldly. A restrained acid-lime accent gives the experience a recognizable signature against near-black surfaces. Oversized editorial typography provides contrast to the technical 3D visuals.
+The first concept used a familiar black-and-lime SaaS aesthetic and repeated small labels, floating pills, and restrained cards. This redesign moves to an editorial / neo-brutalist direction with warmer paper, vivid coral, electric violet, and acid-lime as a selectable alternate mode. Large condensed type carries the brand; 3D and illustration break the grid.
 
-## Information architecture
+## Reference-informed design decisions
 
-1. **Hero** — short positioning statement, availability indicator, clear work CTA, procedural WebGL sculpture, and small technical HUD labels.
-2. **Selected work** — three visual case-study concepts with custom CSS-built previews, project role, concise problem framing, and technology tags.
-3. **Manifesto / About** — a human point of view and concise profile.
-4. **Capabilities** — creative development, 3D interaction, and interface systems.
-5. **Process** — three understandable stages from framing to details.
-6. **Contact** — strong CTA, email copy action with mailto fallback, and social destinations.
-7. **Footer** — identity, year, and return-to-top link.
+- Experimental portfolios such as [Samsy's Gen-02](https://www.webgpu.com/showcase/gen-02-portfolio-an-immersive-world/) treat the portfolio itself as a designed world rather than a generic list of projects. This implementation borrows the principle of a visual journey, while keeping normal page navigation for discoverability and accessibility.
+- Creative developer work from [Lucas Vallenet](https://lucasvallenet.com/) presents motion and interaction as part of the craft; here motion is attached to a purpose: scene exploration, visual transitions, and hover feedback.
+- Awwwards' experimental portfolio references and design writeups commonly combine strong typographic art direction, bespoke graphics, and WebGL. This version uses CSS-made project art and procedural WebGL rather than stock preview images or externally hosted 3D models.
 
-## Implementation choices
+## Page composition
 
-- **React + Vite:** small, fast development workflow and standard production build.
-- **Three.js + React Three Fiber + Drei:** a procedural geometric sculpture built from Three.js primitives, material response, rings, sparkles, environment lighting, and pointer-driven rotation. This intentionally avoids a large external 3D model download.
-- **Motion for React:** entrance reveals, in-view transitions, progress indicator, and subtle hover movement.
-- **Lucide React:** consistent small interface icons.
-- **CSS-first art direction:** the case-study previews are interface compositions written in CSS so they remain crisp, responsive, and easy to edit.
+1. **A loud hero:** “Make it Matter” statement, asymmetric geometry, a procedural animated 3D sculpture, technical microcopy only where it supports the artwork, and two clear actions.
+2. **Movement interlude:** a full-width, continuously moving statement band.
+3. **Project playground:** three illustrative project concepts rendered as graphic posters/UI compositions; asymmetrical 2-column layout rather than uniform cards.
+4. **About:** coral full-bleed section with oversized editorial copy and a human introduction.
+5. **Capabilities:** three expandable-feeling rows with restrained feedback and tech tags.
+6. **Contact:** electric-violet finale, large type, prominent contact action, and moving text strip.
 
-## Motion principles
+## Implementation
 
-- Use movement for feedback, hierarchy, and narrative—not for every single element.
-- Keep core reading and navigation available without waiting for an animation.
-- Honor `prefers-reduced-motion`, reduce visual movement in the 3D scene when requested, and make controls keyboard reachable.
-- Animate primarily opacity and transforms where practical.
-- Keep the canvas pixel ratio capped and limit the scene complexity to make mobile performance more predictable.
+- React + Vite, current configured dependencies.
+- React Three Fiber + Three.js + Drei: procedural distorted icosahedron, wireframe layers, orbital rings, environment lighting, sparkles, pointer rotation.
+- Motion for React: entrance sequences, in-view reveals, scroll-linked decorative rotation, progress indicator, and a selectable “play mode” color change.
+- CSS art: three bespoke cover visuals built from shapes, gradients, typography, and UI fragments, so the visual layer is fast and editable.
+- Responsive navigation and art direction for phone/tablet/desktop; reduced-motion styles and Motion's user preference configuration.
 
-## Performance / accessibility checklist
+## Before publishing
 
-- Canvas resolution capped at 1.5 DPR.
-- Lightweight procedural geometry instead of large model textures.
-- Semantic sections, nav label, descriptive anchor text, focusable links/buttons, meta description, and theme color.
-- CSS breakpoints for phone, tablet, and desktop.
-- Reduced-motion media query plus Motion's reduced-motion hook.
-- Contact button copies the email, with a mailto fallback if clipboard access is unavailable.
+- The three showcased projects are design concepts, not verified client work. Replace them with genuine project names, outcomes, and demo/source links.
+- Update `hello@krrish.dev` and the LinkedIn profile before launch.
+- The external fonts are loaded from Google Fonts; sensible font-family fallbacks are included.
+- Verify rendering in the target mobile browsers and on a slower GPU after deployment.
 
-## Replace these starter values before launch
-
-- Update email `hello@krrish.dev` to the real inbox.
-- Replace the project concepts and descriptions with genuine projects, live demos, and correct source URLs.
-- Replace the LinkedIn placeholder with the intended profile.
-- Verify location and year-specific copy.
-- Add final Open Graph artwork and analytics only if needed.
-
-## Local development
+## Run locally
 
 ```bash
 npm install
 npm run dev
-```
-
-Production check:
-
-```bash
 npm run build
-npm run preview
 ```
-
-## References consulted
-
-- Vite guide: https://vite.dev/guide/
-- React Three Fiber hooks and rendering: https://github.com/pmndrs/react-three-fiber/blob/master/docs/API/hooks.mdx
-- Motion scroll animations: https://motion.dev/docs/react-scroll-animations
-- Motion useScroll API: https://motion.dev/docs/react-use-scroll
-- web.dev motion accessibility: https://web.dev/learn/accessibility/motion
-
-This is a design and implementation plan, not a claim that cross-device browser QA has already been run.
