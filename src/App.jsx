@@ -1,7 +1,6 @@
 import { useState } from "react";
 import {
   ArrowDownRight,
-  ArrowRight,
   ArrowUpRight,
   BarChart3,
   BrainCircuit,
@@ -9,9 +8,7 @@ import {
   Code2,
   Database,
   ExternalLink,
-  Github,
   GraduationCap,
-  Linkedin,
   Mail,
   Menu,
   ScanFace,
@@ -456,12 +453,12 @@ function App() {
                 <Reveal className="contact-card" delay={0.12}>
                   <span className="tiny-label">FIND ME ELSEWHERE</span>
                   <a href="https://github.com/Krrish19912" target="_blank" rel="noreferrer">
-                    <span className="contact-link-icon"><Github size={18} /></span>
+                    <span className="contact-link-icon contact-link-letter">GH</span>
                     <span className="contact-link-copy"><strong>GitHub</strong><small>Code, experiments and projects</small></span>
                     <ExternalLink size={16} className="contact-link-arrow" />
                   </a>
                   <a href="https://linkedin.com/in/kaptankrrish" target="_blank" rel="noreferrer">
-                    <span className="contact-link-icon"><Linkedin size={18} /></span>
+                    <span className="contact-link-icon contact-link-letter">in</span>
                     <span className="contact-link-copy"><strong>LinkedIn</strong><small>Connect professionally</small></span>
                     <ExternalLink size={16} className="contact-link-arrow" />
                   </a>
