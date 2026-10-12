@@ -1,44 +1,39 @@
-# Professional portfolio refinement
+# Portfolio direction — Data Lab
 
-## Direction
+## Goal
 
-A quiet, credible developer portfolio: warm neutral surfaces, deep green-charcoal text, a muted botanical accent, a restrained serif display face, and a clean sans-serif for reading. The design should look authored, not decorated by default. There are no invented client names, conversion statistics, testimonials, or fictional results.
+Present Krrish as an early-career data science / machine-learning candidate who can also make analytics easier to explore through interfaces and visualizations. The portfolio should feel original and technically expressive without relying on invented project metrics, fake clients, or non-existent demo links.
 
-The direction is informed by editorial portfolios that prioritize content clarity, consistent typography, authentic project context, and motion used sparingly. Examples reviewed:
-- [Tarik Karahodžić — Portfolio Website](https://www.tarikkarahodzic.dev/projects/personal-site), an intentionally minimal typographic portfolio.
-- [Angelo Roic — Personal Portfolio](https://angeloroic.com/work/personal-portfolio), which describes a focused presence built around content and hierarchy.
-- [Hashton.dev — Portfolio site](https://hashton.dev/work/hashton), a restrained paper-and-ink system that still demonstrates frontend craft.
+## Visual direction
 
-These references informed general principles, not copied components or visual assets.
+- **Palette:** near-black ink, acid-lime, a restrained periwinkle highlight, and soft gray-green copy.
+- **Typography:** Space Grotesk for display and UI labels, DM Sans for body copy, Instrument Serif for the editorial accent, and DM Mono for small metadata.
+- **Composition:** an oversized, left-aligned hero; custom signal-plot illustration; compact proof-point strip; bento capability cards; clean experience timeline; and a deliberately strong contact finish.
+- **Motion:** short scroll reveals and restrained hover transitions. Respect the visitor's reduced-motion preference.
+- **Responsive behavior:** mobile menu, stacked project cards, single-column skill cards on narrow screens, and no horizontal canvas or oversized media overflow.
+- **Project honesty:** custom artwork is marked as a concept visual. Case notes use details available in the provided resume; source/demo links appear only when real destinations are known.
 
-## Content and credibility
+## Content order
 
-The available public GitHub repositories did not provide enough populated project code to present several distinct finished products as genuine work. Therefore:
-- The portfolio itself is the only featured project, with a direct source link.
-- The other section covers technical interests rather than presenting invented case studies.
-- Additional project slots are intentionally left for real work with context and working links.
-- Contact points go to the real GitHub profile instead of a placeholder email address.
+1. Short role and value proposition
+2. Project highlights and expandable case notes
+3. Capabilities grouped by task
+4. Internship experience
+5. Education and certifications
+6. Contact links
 
-## Interactions
+## Implementation
 
-- Light/dark switch in the main navigation, with system preference as the initial value and localStorage persistence for returning visitors.
-- Compact pointer-responsive Three.js scene with limited geometry and capped device pixel ratio.
-- Short in-view reveals, subtle hover responses, and a scroll progress indicator.
-- Responsive mobile navigation and reduced-motion support.
+- React + Vite
+- Motion for React for reveal transitions
+- Lucide React icons
+- CSS custom properties, CSS illustrations and inline SVG
+- No Three.js dependency in the redesigned page, reducing bundle and rendering complexity
 
-## Architecture
+## Verification checklist
 
-- React + Vite.
-- React Three Fiber / Three.js / Drei for the interactive geometric study.
-- Motion for React for short transitions.
-- CSS variables define light and dark theme tokens so the entire interface changes consistently.
-
-## Local verification
-
-```bash
-npm install
-npm run dev
-npm run build
-```
-
-Check desktop and mobile layouts, keyboard focus, color contrast, light/dark persistence, and low-power mobile rendering before public launch.
+- Run \`npm run build\` on Node.js 22
+- Check narrow/mobile layouts, category filters and case-note toggles
+- Check keyboard focus and reduced-motion preference
+- Confirm external URLs and contact details
+- Add links to individual project repositories/demos when verified
