@@ -174,7 +174,7 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--lime); outline-
 .metric-top > small { display: block; margin-top: 7px; color: #7d8b81; font-size: 9px; }
 .metric-bottom { bottom: 62px; left: 19px; width: 186px; transform: rotate(-2deg); }
 .mini-bars { display: flex; align-items: end; gap: 4px; height: 36px; margin-top: 12px; }
-.mini-bars i { display: block; flex: 1; height: var(--bar-height); border-radius: 2px 2px 0 0; background: linear-gradient(to top, rgba(141, 166, 255, .5), var(--lime)); opacity: calc(.42 + var(--bar-index) * .045); transform-origin: bottom; animation: bar-rise .7s both; animation-delay: calc(var(--bar-index) * 35ms); }
+.mini-bars i { display: block; flex: 1; height: var(--bar-height); border-radius: 2px 2px 0 0; background: linear-gradient(to top, rgba(141, 166, 255, .5), var(--lime)); opacity: .7; transform-origin: bottom; animation: bar-rise .7s both; animation-delay: 0ms; }
 @keyframes bar-rise { from { transform: scaleY(.15); } to { transform: scaleY(1); } }
 .metric-bottom > small { display: block; margin-top: 10px; color: #7d8b81; font: 7px var(--mono); letter-spacing: .06em; }
 .hero-visual-footer { bottom: 19px; justify-content: flex-start; gap: 10px; color: #69766b; }
@@ -480,4 +480,10 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--lime); outline-
 }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+}
+
+.contact-link-letter {
+  color: var(--lime);
+  font: 600 10px var(--mono);
+  letter-spacing: -.08em;
 }
