@@ -13,20 +13,20 @@ html { scroll-behavior: smooth; scroll-padding-top: 90px; }
 body { margin: 0; min-width: 320px; }
 a { color: inherit; text-decoration: none; }
 button { font: inherit; }
-::selection { background: #d6e2d8; color: #1f2a24; }
+::selection { background: #0b7f8f; color: #ffffff; }
 .app-shell {
-  --bg: #f7f7f3;
+  --bg: #f4f7fa;
   --surface: #ffffff;
-  --surface-soft: #eff1ec;
-  --text: #232a25;
-  --muted: #69736c;
-  --faint: #88918a;
-  --line: #dfe3dd;
-  --line-strong: #cdd4cd;
-  --accent: #4c7464;
-  --accent-hover: #355847;
+  --surface-soft: #eaf1f5;
+  --text: #152638;
+  --muted: #5f7285;
+  --faint: #8294a5;
+  --line: #dce5ed;
+  --line-strong: #c3d2de;
+  --accent: #087e8b;
+  --accent-hover: #075e70;
   --accent-contrast: #ffffff;
-  --scene-bg: #edf1eb;
+  --scene-bg: #edf4f7;
   background: var(--bg);
   color: var(--text);
   min-height: 100vh;
@@ -34,18 +34,18 @@ button { font: inherit; }
   transition: background-color .25s ease, color .25s ease;
 }
 .app-shell[data-theme="dark"] {
-  --bg: #111816;
-  --surface: #17201c;
-  --surface-soft: #202b25;
-  --text: #e9eee8;
-  --muted: #a4b0a6;
-  --faint: #77867b;
-  --line: #303b33;
-  --line-strong: #415047;
-  --accent: #a6cabb;
-  --accent-hover: #c5dfd2;
-  --accent-contrast: #16221b;
-  --scene-bg: #1a2520;
+  --bg: #0c1420;
+  --surface: #111f2d;
+  --surface-soft: #1b2b3b;
+  --text: #eaf2f8;
+  --muted: #a6b6c6;
+  --faint: #7c90a4;
+  --line: #26394a;
+  --line-strong: #3a5063;
+  --accent: #72dce7;
+  --accent-hover: #a1ebf0;
+  --accent-contrast: #08202a;
+  --scene-bg: #142637;
 }
 button:focus-visible, a:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
 .section-shell { width: min(1120px, calc(100% - 64px)); margin-inline: auto; }
@@ -132,7 +132,7 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--accent); outlin
 .featured-copy > p { max-width: 390px; margin: 15px 0 26px; color: var(--muted); font-size: 12px; line-height: 1.9; }
 .featured-foot { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px; padding-top: 17px; border-top: 1px solid var(--line); }
 .project-status { display: inline-flex; align-items: center; gap: 7px; color: var(--muted); font: 8px var(--mono); }
-.project-status i { width: 6px; height: 6px; border-radius: 50%; background: #6e9a7c; }
+.project-status i { width: 6px; height: 6px; border-radius: 50%; background: #2c9278; }
 .featured-foot a { display: inline-flex; align-items: center; gap: 6px; color: var(--accent); font-size: 11px; font-weight: 600; }
 .featured-foot a:hover { text-decoration: underline; text-underline-offset: 4px; }
 .work-honesty { display: flex; align-items: flex-start; gap: 13px; max-width: 620px; margin: 26px 0 0 auto; }
@@ -255,4 +255,33 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--accent); outlin
 }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+}
+
+
+/* Cohesive finish: cool porcelain, deep navy and clear teal. */
+.brand-mark {
+  box-shadow: 0 4px 12px rgba(8, 126, 139, 0.16);
+}
+.hero-scene {
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.55);
+}
+.featured-project,
+.contact-card {
+  box-shadow: 0 12px 30px rgba(19, 37, 55, 0.035);
+}
+.button-primary {
+  box-shadow: 0 5px 14px rgba(8, 126, 139, 0.18);
+}
+@media (hover: hover) {
+  .featured-project {
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+  .featured-project:hover {
+    border-color: var(--line-strong);
+    box-shadow: 0 16px 34px rgba(19, 37, 55, 0.06);
+  }
+}
+.app-shell[data-theme="dark"] .featured-project,
+.app-shell[data-theme="dark"] .contact-card {
+  box-shadow: 0 14px 38px rgba(0, 0, 0, 0.12);
 }
