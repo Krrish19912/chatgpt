@@ -1,36 +1,45 @@
-# Krrish — Creative Developer Portfolio
+# Krrish — Data Science & Machine Learning Portfolio
 
-A futuristic, motion-led React portfolio built around a custom procedural 3D hero, editorial typography, CSS-made project previews, responsive layouts, and reduced-motion support.
+A responsive, single-page portfolio focused on data analysis, machine learning, and making technical work easier to understand.
+
+## Experience
+
+- **Editorial data-lab visual system** — ink-black surfaces, acid-lime highlights, restrained blue, high-contrast type, and a custom signal visualization.
+- **Project storytelling** — category filters and expandable case notes for computer vision and analytics work.
+- **Career context** — capabilities, internship experience, B.Tech education, and certifications.
+- **Responsive and accessible** — mobile navigation, visible keyboard focus, semantic sections, and reduced-motion support.
+- **Lightweight interface** — React, Vite, Motion, Lucide icons, CSS, and inline SVG artwork. The decorative visuals are drawn in the page; there are no heavyweight 3D dependencies.
 
 ## Stack
 
 - React + Vite
-- Three.js, React Three Fiber, Drei
 - Motion for React
 - Lucide React
-- CSS (responsive design, custom project preview compositions)
+- CSS design tokens and responsive layouts
+- Inline SVG and CSS artwork
 
 ## Run locally
 
-Node.js 20.19+ or 22.12+ is recommended for current Vite releases.
+Node.js 22 is used in the repository build workflow.
 
-```bash
+\`\`\`bash
 npm install
 npm run dev
-```
+\`\`\`
 
-Build and preview the production bundle:
+Create and preview a production build:
 
-```bash
+\`\`\`bash
 npm run build
 npm run preview
-```
+\`\`\`
 
 ## Project structure
 
-```
+\`\`\`
 .
 ├── docs/
+│   ├── DESIGN_REFERENCES.md
 │   └── PLAN.md
 ├── public/
 │   └── favicon.svg
@@ -41,10 +50,10 @@ npm run preview
 ├── index.html
 ├── package.json
 └── vite.config.js
-```
+\`\`\`
 
-## Before publishing
+## Content and links
 
-This repository currently uses illustrative concept projects; replace them with real work, real demo links, and accurate case-study outcomes. Change the sample contact email and LinkedIn link before launch. The hero uses a procedural geometric object rather than an external 3D asset.
+Project descriptions, experience, dates, education and credentials are based on the supplied portfolio/resume information. Decorative project visuals are original illustrations, not claimed product screenshots. Project-level source and demo links are intentionally omitted until the corresponding repositories or live demos are available.
 
-More detail on the visual concept, architecture, accessibility, and next steps lives in [docs/PLAN.md](docs/PLAN.md).
+The contact section links to GitHub, LinkedIn and the supplied email address. Verify those destinations before public launch.
