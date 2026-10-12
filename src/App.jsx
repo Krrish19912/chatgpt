@@ -1,7 +1,7 @@
 import { Suspense, useRef, useState } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Float, MeshDistortMaterial, Sparkles, Stars, Environment } from "@react-three/drei";
-import { motion, useReducedMotion, useScroll, useSpring, useTransform } from "motion/react";
+import { MotionConfig, motion, useReducedMotion, useScroll, useSpring, useTransform } from "motion/react";
 import {
   ArrowDownRight, ArrowRight, ArrowUpRight, Asterisk, Code2, Command,
   Github, Globe2, Layers3, Linkedin, Mail, Menu, MousePointer2, Sparkles as SparklesIcon, X
@@ -219,7 +219,8 @@ function App() {
   };
 
   return (
-    <div className="app-shell" ref={pageRef} id="top">
+    <MotionConfig reducedMotion="user">
+      <div className="app-shell" ref={pageRef} id="top">
       <motion.div className="scroll-progress" style={{ scaleX: progress }} />
       <div className="ambient ambient-a" /><div className="ambient ambient-b" />
       <Header />
@@ -240,7 +241,7 @@ function App() {
               <a className="button button-quiet" href="#about">Get to know me <ArrowRight size={16} /></a>
             </motion.div>
             <motion.div className="hero-footnote" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.8 }}>
-              <span><span className="footnote-line" /> SCROLL TO EXPLORE</span><span className="hero-coordinates">22°28' N&nbsp; 70°04' E</span>
+              <span><span className="footnote-line" /> SCROLL TO EXPLORE</span><span className="hero-coordinates">DESIGNING FROM EVERYWHERE</span>
             </motion.div>
           </div>
           <motion.div className="hero-art" initial={{ opacity: 0, scale: 0.92 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 1.1, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}>
@@ -308,7 +309,8 @@ function App() {
         </section>
       </main>
       <footer className="site-footer section-shell"><a href="#top" className="footer-brand"><span className="brand-mark">K.</span><span>MADE WITH INTENTION <span className="footer-heart">✳</span></span></a><span>© {new Date().getFullYear()} KRISH. BUILT ON THE INTERNET.</span><a href="#top" className="back-top">BACK TO TOP ↑</a></footer>
-    </div>
+      </div>
+    </MotionConfig>
   );
 }
 
