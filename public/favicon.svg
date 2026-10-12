@@ -1,1 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="18" fill="#0c1420"/><path d="M17 13h9v19l17-19h12L37 31l19 20H44L26 32v19h-9z" fill="#72dce7"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Krrish monogram">
+  <rect width="64" height="64" rx="17" fill="#090b0d"/>
+  <rect x="1" y="1" width="62" height="62" rx="16" fill="none" stroke="#d3ff47" stroke-opacity=".6"/>
+  <path d="M15 13h8v17l16-17h11L32 31l18 20H39L23 33v18h-8z" fill="#d3ff47"/>
+  <circle cx="51" cy="49" r="3" fill="#8da6ff"/>
+</svg>
